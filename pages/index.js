@@ -12,7 +12,7 @@ export default function Home() {
     fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&cx=${process.env.NEXT_PUBLIC_GOOGLE_CX}&q=${q}&start=${start}`)
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      // console.log(data);
       setData(data)
     })
     .catch(err => res.status(500).send('Server Error',err));
