@@ -9,7 +9,7 @@ export default function Home() {
 
   const fetchData = (start=1, q) => {
     
-    fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&cx=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&q=${q}&start=${start}`)
+    fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&cx=${process.env.NEXT_PUBLIC_GOOGLE_CX}&q=${q}&start=${start}`)
     .then(response => response.json())
     .then(data => {
       console.log(data);
