@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
 
   const [data, setData] = useState([]);
-
+  const [loader, setLoader] = useState(false);
 
   const fetchData = (start=1, q) => {
     
@@ -13,12 +13,14 @@ export default function Home() {
     .then(response => response.json())
     .then(data => {
       // console.log(data);
-      setData(data)
+      setData(data);
+      setLoader(false);
     })
     .catch(err => res.status(500).send('Server Error',err));
   }
 
   const onSubmit = async (e) => {
+    setLoader(true);
     const formData = new FormData(e.target)
     const data = {}
     e.preventDefault()
@@ -26,7 +28,7 @@ export default function Home() {
         data[entry[0]] = entry[1]
     } 
 
-    fetchData(1, e.target.query.value)
+    fetchData(1, e.target.query.value);
   }
 
 
@@ -50,6 +52,12 @@ export default function Home() {
             </div>
           </div>
         </form>  
+
+        {loader ? 
+        <>
+        <p className="loader text-left">Please wait...</p>          
+        </>
+      : '' }
 
         {data.items ? 
           <>
