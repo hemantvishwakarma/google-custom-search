@@ -15,6 +15,7 @@ export default function Home() {
     .then(response => response.json())
     .then(data => {
       setAllData(data)
+      // console.log(data)
       return data.items;
     })
     .catch(err => res.status(500).send('Server Error',err));
@@ -32,8 +33,9 @@ export default function Home() {
 
     var i;
     let jsonData = {};
-    for (i = 1; i <= 20; i++) {      
-     await fetchData(i, e.target.query.value).then(dd => {        
+    for (i = 1; i <= 30; i++) {      
+     await fetchData(i, e.target.query.value).then(dd => {  
+      //  console.log(dd)      
         jsonData[i] = dd     
       });
     }
@@ -44,21 +46,33 @@ export default function Home() {
   const listData = (data) => {  
     var i;
     let looplistData='';
+
+    const looplistArrayData = [];
     if(data.length!=0){
-      for (i = 1; i <=20; i++) {      
+      for (i = 1; i <=30; i++) {      
         {data[i].map((itemData, index) => {
-          looplistData+=`<li key=${index} className="list-group-item"> - ${itemData.link}</li>`;
-          // looplistData+=index
+          looplistArrayData.push(itemData.link)
         }                    
       )} 
       }
-    }    
+    }   
+
+    let uniqueLoopData = [...new Set(looplistArrayData)];
+
+    {uniqueLoopData.map((itmData, index) => {
+      looplistData+=`<li key=${index} className="list-group-item"> - ${itmData}</li>`;
+    }  )}
+
+
     return looplistData;
   }
 
-  // react.useEffect(() => {
-  //   console.log(listData);
-  // }, [listData])
+  react.useEffect(() => {
+    let chars = ['A', 'B', 'A', 'C', 'B'];
+    let uniqueChars = [...new Set(chars)];
+    
+    console.log(uniqueChars);
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -83,7 +97,7 @@ export default function Home() {
 
         {loader ? 
         <>
-        <p className="loader text-left">Please wait...</p>          
+        <p className="loader text-left">Please wait... ( 30-45 Seconds)</p>          
         </>
       : '' }
 
