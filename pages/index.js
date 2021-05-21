@@ -44,22 +44,24 @@ export default function Home() {
   }
 
   const listData = (data) => {  
+    console.log(data);
     var i;
     let looplistData='';
-
     const looplistArrayData = [];
+
     if(data.length!=0){
       for (i = 1; i <=30; i++) {      
         {data[i].map((itemData, index) => {
-          looplistArrayData.push(itemData.link)
+          looplistArrayData.push(itemData.link);
+          // looplistData+=`<li key=${index} className="list-group-item"> - ${itemData.link}</li>`;
         }                    
       )} 
       }
     }   
 
+    // 
     let uniqueLoopData = [...new Set(looplistArrayData)];
-
-    {uniqueLoopData.map((itmData, index) => {
+    {looplistArrayData.map((itmData, index) => {
       looplistData+=`<li key=${index} className="list-group-item"> - ${itmData}</li>`;
     }  )}
 
