@@ -10,7 +10,7 @@ export default function Home() {
 
 
   const fetchData = async (start=1, q) => { 
-    // console.log(start)   
+    console.log(start)   
     return fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&cx=${process.env.NEXT_PUBLIC_GOOGLE_CX}&q=${q}&start=${start}`)
     .then(response => response.json())
     .then(data => {
@@ -32,7 +32,7 @@ export default function Home() {
 
     var i;
     let jsonData = {};
-    for (i = 1; i <= 30; i++) {      
+    for (i = 1; i <= 20; i++) {      
      await fetchData(i, e.target.query.value).then(dd => {        
         jsonData[i] = dd     
       });
@@ -45,9 +45,10 @@ export default function Home() {
     var i;
     let looplistData='';
     if(data.length!=0){
-      for (i = 1; i <= 30; i++) {      
+      for (i = 1; i <=20; i++) {      
         {data[i].map((itemData, index) => {
           looplistData+=`<li key=${index} className="list-group-item"> - ${itemData.link}</li>`;
+          // looplistData+=index
         }                    
       )} 
       }
@@ -56,8 +57,8 @@ export default function Home() {
   }
 
   // react.useEffect(() => {
-  //   console.log(allData.queries);
-  // }, [allData])
+  //   console.log(listData);
+  // }, [listData])
 
   return (
     <div className={styles.container}>
