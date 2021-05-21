@@ -67,9 +67,9 @@ export default function Home() {
             ))}
           </ul>
 
-          <nav aria-label="Page navigation example">
+          <nav aria-label="Page navigation example  text-center">
 
-            <ul className="pagination mt-5">
+            <ul className="pagination mt-5  mb-15 text-center">
               {data.queries.previousPage ?
               <li className="page-item"><a className="page-link" onClick={() => fetchData(data.queries.previousPage[0].startIndex, data.queries.previousPage[0].searchTerms)}>Previous Page</a></li>
               : ''}
