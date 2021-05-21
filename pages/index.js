@@ -1,41 +1,70 @@
-import react, {useEffect, useState} from 'react';
+import react, {useState} from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
 
+  const [allData, setAllData] = useState([]);
   const [data, setData] = useState([]);
+  const [loader, setLoader] = useState(false);
 
 
-  const fetchData = (start=1, q) => {
-    
-    fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&cx=${process.env.NEXT_PUBLIC_GOOGLE_CX}&q=${q}&start=${start}`)
+  const fetchData = async (start=1, q) => { 
+    // console.log(start)   
+    return fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}&cx=${process.env.NEXT_PUBLIC_GOOGLE_CX}&q=${q}&start=${start}`)
     .then(response => response.json())
     .then(data => {
-      // console.log(data);
-      setData(data)
+      setAllData(data)
+      return data.items;
     })
     .catch(err => res.status(500).send('Server Error',err));
   }
 
   const onSubmit = async (e) => {
+    setLoader(true);
+    setData([])
     const formData = new FormData(e.target)
-    const data = {}
+    const Fdata = {}
     e.preventDefault()
     for (let entry of formData.entries()) {
-        data[entry[0]] = entry[1]
+      Fdata[entry[0]] = entry[1]
     } 
 
-    fetchData(1, e.target.query.value)
+    var i;
+    let jsonData = {};
+    for (i = 1; i <= 30; i++) {      
+     await fetchData(i, e.target.query.value).then(dd => {        
+        jsonData[i] = dd     
+      });
+    }
+    setData(jsonData);
+    setLoader(false);
   }
 
+  const listData = (data) => {  
+    var i;
+    let looplistData='';
+    if(data.length!=0){
+      for (i = 1; i <= 30; i++) {      
+        {data[i].map((itemData, index) => {
+          looplistData+=`<li key=${index} className="list-group-item"> - ${itemData.link}</li>`;
+        }                    
+      )} 
+      }
+    }    
+    return looplistData;
+  }
+
+  // react.useEffect(() => {
+  //   console.log(allData.queries);
+  // }, [allData])
 
   return (
     <div className={styles.container}>
       <Head>
         <title>Search Engine</title>
       </Head>   
-
+      
       <div className="container">
         <form onSubmit={ (e) => onSubmit(e)}>
           <div className="col-lg-12 text-center mt-5">
@@ -51,28 +80,32 @@ export default function Home() {
           </div>
         </form>  
 
-        {data.items ? 
-          <>
-          <ul className="list-group mt-5">
-            {(data.items) && data.items.map((itemData, index) => (
-              <li key={index} className="list-group-item">{itemData.link}</li>            
-            ))}
-          </ul>
+        {loader ? 
+        <>
+        <p className="loader text-left">Please wait...</p>          
+        </>
+      : '' }
 
+        {data ? 
+          <>       
+
+          {data ? 
+          <ul className="list-group mt-5 mb-15" dangerouslySetInnerHTML={{__html: listData(data)}}></ul>
+          : ''}    
+          
+{/* 
+          {data ? 
           <nav aria-label="Page navigation example">
 
             <ul className="pagination mt-5">
-              {data.queries.previousPage ?
-              <li className="page-item"><a className="page-link" onClick={() => fetchData(data.queries.previousPage[0].startIndex, data.queries.previousPage[0].searchTerms)}>Previous Page</a></li>
-              : ''}
-
-              {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
-              <li className="page-item"><a className="page-link" href="#">2</a></li>
-              <li className="page-item"><a className="page-link" href="#">3</a></li> */}
-              <li className="page-item"><a className="page-link" onClick={() => fetchData(data.queries.nextPage[0].startIndex, data.queries.nextPage[0].searchTerms)}>Next Page</a></li>
+              {allData.queries.previousPage ?
+              <li className="page-item"><a className="page-link" onClick={() => fetchData(allData.queries.previousPage[0].startIndex, allData.queries.previousPage[0].searchTerms)}>Previous Page</a></li>
+              : ''}             
+              <li className="page-item"><a className="page-link" onClick={() => fetchData(allData.queries.nextPage[0].startIndex, allData.queries.nextPage[0].searchTerms)}>Next Page</a></li>
             </ul>
 
           </nav>
+           : ''}    */}
           </>
         : ''}
 
