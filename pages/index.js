@@ -67,12 +67,12 @@ export default function Home() {
     return looplistData;
   }
 
-  react.useEffect(() => {
-    let chars = ['A', 'B', 'A', 'C', 'B'];
-    let uniqueChars = [...new Set(chars)];
+  // react.useEffect(() => {
+  //   let chars = ['A', 'B', 'A', 'C', 'B'];
+  //   let uniqueChars = [...new Set(chars)];
     
-    console.log(uniqueChars);
-  }, [])
+  //   console.log(uniqueChars);
+  // }, [])
 
   return (
     <div className={styles.container}>
