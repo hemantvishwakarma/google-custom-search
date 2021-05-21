@@ -1,6 +1,6 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 a:hover{cursor: pointer;}
-li{list-style: none;}
+li{list-style: none; font-size: 14px;}
 .loader{font-size:30px;}
 
 .mb-15{margin-bottom: 15%;}

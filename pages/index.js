@@ -39,29 +39,35 @@ export default function Home() {
       </Head>   
 
       <div className="container">
-        <form onSubmit={ (e) => onSubmit(e)}>
-          <div className="col-lg-12 text-center mt-5">
-            <h1>Search Engine</h1>
-          </div>
-          <div className="col-md-12 mt-5 border border-success p-3">
-            <div className="input-group">
-              <input type="text" name="query" required className="form-control" placeholder="Enter keyword" />
-              <div className="input-group-append">
-                <button className="btn btn-success">Search</button>
+        <div className="row">
+          <div className="col-md-3"></div>
+          <div className="col-md-6">
+            <form onSubmit={ (e) => onSubmit(e)}>
+              <div className="col-lg-12 text-center mt-2">
+                <h1>Search Engine</h1>
               </div>
-            </div>
-          </div>
-        </form>  
+              <div className="col-md-12 mt-2 border border-success p-3">
+                <div className="input-group">
+                  <input type="text" name="query" required className="form-control" placeholder="Enter keyword" />
+                  <div className="input-group-append">
+                    <button className="btn btn-success">Search</button>
+                  </div>
+                </div>
+              </div>
+            </form>  
 
-        {loader ? 
-        <>
-        <p className="loader text-left">Please wait...</p>          
-        </>
-      : '' }
+            {loader ? 
+            <>
+            <p className="loader text-left">Please wait...</p>          
+            </>
+          : '' }
+          </div>
+        </div>
+        
 
         {data.items ? 
           <>
-          <ul className="list-group mt-5">
+          <ul className="list-group mt-2">
             {(data.items) && data.items.map((itemData, index) => (
               <li key={index} className="list-group-item">{itemData.link}</li>            
             ))}
@@ -69,7 +75,7 @@ export default function Home() {
 
           <nav aria-label="Page navigation example  text-center">
 
-            <ul className="pagination mt-5  mb-15 text-center">
+            <ul className="pagination mt-3 mb-15 text-center">
               {data.queries.previousPage ?
               <li className="page-item"><a className="page-link" onClick={() => fetchData(data.queries.previousPage[0].startIndex, data.queries.previousPage[0].searchTerms)}>Previous Page</a></li>
               : ''}
